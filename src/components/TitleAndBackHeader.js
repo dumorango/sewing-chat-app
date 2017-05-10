@@ -37,16 +37,6 @@ const TitleAndBackHeader = ({ title, history, avatar, rightLegend, rightAction, 
 
                 }} text={title} />
             </ToolbarGroup>
-            /* <ToolbarGroup lastChild={true} onTouchTap={rightAction}>
-                {avatar ? <Avatar src={avatar}/> :
-                   <FlatButton
-                            label={rightLegend}
-                            labelPosition="before"
-                            primary={true}
-                            icon={ <FontIcon className="fa fa-chevron-right"/>}
-                            style={rightAction ? {} : { color: 'white' }}
-                        /> }
-            </ToolbarGroup> */
         </Toolbar>
     );
 };
