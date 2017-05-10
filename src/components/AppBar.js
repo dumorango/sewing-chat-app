@@ -2,7 +2,7 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { AppBar, IconMenu, IconButton, FontIcon, MenuItem, Avatar } from 'material-ui';
 
-const MyAppBar = ({ history, user }) => {
+const MyAppBar = ({ history, avatar, title }) => {
 
     function redirectToCreateGroup() {
         history.replace('/addgroup');
@@ -17,7 +17,7 @@ const MyAppBar = ({ history, user }) => {
 
     return (
         <AppBar
-            title={<div>{logo}   ZAP  {backwardsLogo}</div>}
+            title={<div>{logo}   {title || 'ZAP'}  {backwardsLogo}</div>}
             style={{
                 position: 'fixed'
             }}
@@ -36,7 +36,7 @@ const MyAppBar = ({ history, user }) => {
                 </IconMenu>
             }
             iconElementRight={
-                <Avatar src={(user || {}).photoURL}/>
+                avatar ? <Avatar src={avatar}/> : null
             }
         />
     );

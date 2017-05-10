@@ -9,7 +9,7 @@ class CreateGroup extends React.Component {
         super(props);
         this.updateField = this.updateField.bind(this);
         this.createGroup = this.createGroup.bind(this);
-        this.goBack = this.goBack.bind(this);
+        this.goToGroup = this.goToGroup.bind(this);
         this.alreadyExists = this.alreadyExists.bind(this);
     }
 
@@ -35,8 +35,8 @@ class CreateGroup extends React.Component {
         }
     }
 
-    goBack(event) {
-        this.props.history.push('/');
+    goToGroup(group) {
+        this.props.history.replace(`/groups/${group.key}`);
     }
 
     alreadyExists(group) {
@@ -60,8 +60,8 @@ class CreateGroup extends React.Component {
                     members,
                     type: 'group'
                 }
-            }).then(() => {
-                this.goBack();
+            }).then((group) => {
+                this.goToGroup(group);
             });
         }
     }

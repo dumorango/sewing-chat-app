@@ -1,6 +1,8 @@
 const { resolve } = require('path');
 const webpack = require('webpack');
 
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+
 module.exports = {
     context: resolve(__dirname, 'src'),
 
@@ -64,5 +66,9 @@ module.exports = {
 
         new webpack.NamedModulesPlugin(),
         // prints more readable module names in the browser console on HMR updates
+        new HtmlWebpackPlugin({
+            title: 'Zap da Costura',
+            template: './index.ejs'
+        })
     ],
 };

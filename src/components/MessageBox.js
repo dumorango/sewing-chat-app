@@ -1,6 +1,6 @@
 import React from 'react';
 import { TextField, Card } from 'material-ui';
-import ReactDOM from 'react-dom';
+import BottomFixed from './BottomFixed';
 import trim from 'trim';
 import base from '../store/rebase';
 
@@ -49,16 +49,8 @@ class MessageBox extends React.Component {
 
     render() {
         return (
-            <div style={{
-                zIndex: 1,
-                position: 'fixed',
-                width: '100%',
-                display: 'block',
-                height: this.props.height,
-                border: '0px',
-                backgroundColor: 'white',
-                bottom: '0px',
-                padding: '5%'
+            <BottomFixed style={{
+                height: this.props.height
             }}>
                 <Card style={{
                     borderRadius: 20,
@@ -67,9 +59,10 @@ class MessageBox extends React.Component {
                     fontSize: '1em',
                     outline: 'auto 0px',
                     width: '90%',
-                    position: 'relative',
-                    paddingLeft: '5%',
-                    border: '2px black'
+                    border: '2px black',
+                    marginLeft: '5%',
+                    marginBottom: '5%',
+                    paddingLeft: '5%'
                 }}>
                     <TextField
                         name="message-box"
@@ -82,7 +75,7 @@ class MessageBox extends React.Component {
                         onFocus={this.props.scrollToBottom}
                         />
                 </Card>
-            </div>
+            </BottomFixed>
         );
     }
 }

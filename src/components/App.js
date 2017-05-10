@@ -9,6 +9,9 @@ import Chat from './Chat'
 import base from '../store/rebase';
 import moment from 'moment';
 import AppBar from './AppBar';
+import Content from './Content'
+
+import {Paper, BottomNavigation, BottomNavigationItem, FontIcon } from 'material-ui';
 
 class App extends React.Component {
     constructor() {
@@ -35,6 +38,10 @@ class App extends React.Component {
         })
     }
 
+    setTitle(title){
+        this.setState({ title })
+    }
+
     componentWillMount() {
         const user = base.getCurrentUser();
         this.setState({
@@ -52,27 +59,16 @@ class App extends React.Component {
         const main = (!user) ?
             (initialized ? <Login/> : <div> Carregando... </div>) :
                     <Switch>
-                            <Route path="/" exact render={() => <ChannelList channels={channels}/>}/>
+                            <Route path="/" exact render={() => <ChannelList channels={channels} user={user}/>}/>
                             <Route path="/addgroup" exact render={() => <CreateGroup channels={channels}/>}/>
                             <Route path="/groups/:group" exact render={() => <Chat channels={channels} messages={messages}/>}/>
-                            <Route path="/login" component={Login}/>
                     </Switch>
                 ;
         return (
 
             <BrowserRouter history={ history } >
-                <div style={{
-                    height: '100%'
-                }}>
-                    <AppBar user={user}/>
-                    <div style={{
-                        padding: '1px',
-                        paddingTop: '60px',
-                        bottom: '0px',
-                        height: '100%'
-                    }}>
-                        {main}
-                    </div>
+                <div>
+                    {main}
                 </div>
             </BrowserRouter>
         );

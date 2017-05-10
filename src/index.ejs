@@ -37,9 +37,8 @@
         window.onerror = function(message, file, line) {
             ga('send', 'exception', {
                 'exDescription': 'An error occured at line ' + line + ' of ' + file + ': ' + message,
-                'exFatal': true
+                'exFatal': false
             });
-            alert('An error occured at line ' + line + ' of ' + file + ': ' + message);
         };
     </script>
     <script async src='https://www.google-analytics.com/analytics.js'></script>

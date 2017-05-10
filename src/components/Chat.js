@@ -4,6 +4,8 @@ import MessageList from './MessageList';
 import MessageBox from './MessageBox';
 import TitleAndBackHeader from './TitleAndBackHeader';
 import { withRouter } from 'react-router-dom';
+import AppBar from './AppBar';
+import Content from './Content';
 
 class Chat extends Component {
 
@@ -48,16 +50,17 @@ class Chat extends Component {
         }
         const channelMessageList = selectedChannel ? messages.filter(message => message.channel === selectedChannel) : {};
         return (
-                <div>
-                    <TitleAndBackHeader title={selectedChannelName}/>
-                    <div>
-                        <MessageList messages={channelMessageList} style={{
-                             marginBottom: '60px', bottom: '60px', marginTop: '60px'
-                        }}/>
-                    </div>
-                    <MessageBox  selectedChannel={selectedChannel} scrollToBottom={this.scrollToBottom} height="40px"/>
-                    <div id="bottom" ref={(el) => { this.messagesEnd = el; }}/>
-                </div>
+            <div>
+                <AppBar title={selectedChannelName}/>
+                <TitleAndBackHeader title={selectedChannelName}/>
+                <Content>
+                    <MessageList messages={channelMessageList} style={{
+                        marginBottom: '60px', bottom: '60px', marginTop: '60px'
+                    }}/>
+                </Content>
+                <MessageBox  selectedChannel={selectedChannel} scrollToBottom={this.scrollToBottom} height="60px"/>
+                <div id="bottom" ref={(el) => { this.messagesEnd = el; }}/>
+            </div>
         );
     }
 
