@@ -2,6 +2,8 @@ import React from 'react';
 import { Card, CardText, RaisedButton } from 'material-ui';
 import base from '../store/rebase';
 import { withRouter } from 'react-router-dom';
+import AppBar from './AppBar';
+import Content from './Content';
 
 class Login extends React.Component {
 
@@ -24,19 +26,22 @@ class Login extends React.Component {
 
     render() {
         return (<div>
-                    <Card style={{
-                        'maxWidth': '800px',
-                        'margin': '30px auto',
-                        'padding': '50px'
-                        }}>
-                    <CardText style={{
-                        'textAlign': 'center'
-                    }}>Please login</CardText>
-                    <RaisedButton style={{
-                        display: 'block',
-                        }} onClick={this.loginWithGoogle} label="Login with Google"
-                    />
-                    </Card>
+                  <AppBar title="ZAP"/>
+                    <Content>
+                        <Card style={{
+                            'maxWidth': '800px',
+                            'margin': '30px auto',
+                            'padding': '50px'
+                            }}>
+                        <CardText style={{
+                            'textAlign': 'center'
+                        }}>Please login</CardText>
+                        <RaisedButton style={{
+                            display: 'block',
+                            }} onClick={this.loginWithGoogle} label="Login with Google"
+                        />
+                        </Card>
+                    </Content>
                 </div>);
     }
 }

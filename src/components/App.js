@@ -8,8 +8,7 @@ import ChannelList from './ChannelList'
 import Chat from './Chat'
 import base from '../store/rebase';
 import moment from 'moment';
-import AppBar from './AppBar';
-import Content from './Content'
+import Loading from './Content'
 
 import {Paper, BottomNavigation, BottomNavigationItem, FontIcon } from 'material-ui';
 
@@ -57,7 +56,7 @@ class App extends React.Component {
         const { messages, channels, user, initialized } = this.state;
 
         const main = (!user) ?
-            (initialized ? <Login/> : <div> Carregando... </div>) :
+            (initialized ? <Login/> : <Loading/>) :
                     <Switch>
                             <Route path="/" exact render={() => <ChannelList channels={channels} user={user}/>}/>
                             <Route path="/addgroup" exact render={() => <CreateGroup channels={channels}/>}/>

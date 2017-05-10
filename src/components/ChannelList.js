@@ -3,6 +3,7 @@ import Channel from './Channel';
 import { CircularProgress, List, Card, IconMenu, MenuItem, IconButton }  from 'material-ui';
 import AppBar from './AppBar';
 import Content from './Content';
+import Loading from './Loading';
 
 import { withRouter } from 'react-router-dom';
 
@@ -15,17 +16,7 @@ const ChannelList = ({ channels = [], history, user }) => {
         let content;
 
         if(channels.length === 0) {
-            content = (<Card>
-                        <CircularProgress
-                            mode="indeterminate"
-                            style={{
-                                paddingTop: '20px',
-                                paddingBottom: '20px',
-                                margin: '0 auto',
-                                display: 'block',
-                                width: '60px'
-                            }}/>
-                        </Card>);
+            content = (<Loading/>);
         }else {
             let channelNodes = channels.map(channel => <Channel key={channel.key} channel={channel.name} selectChannel={() => selectChannel(channel)} />);
             content = <List style={{
