@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "echo \"No test specified YET!\" && exit 0",
     "start": "webpack-dev-server --env=dev --host 0.0.0.0 --public",
     "build:dev": "webpack --env=dev --progress --profile --colors",
     "build:dist": "webpack --env=prod --progress --profile --colors"
