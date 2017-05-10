@@ -6,6 +6,7 @@ import TitleAndBackHeader from './TitleAndBackHeader';
 import { withRouter } from 'react-router-dom';
 import AppBar from './AppBar';
 import Content from './Content';
+import BottomFixed from './BottomFixed';
 
 class Chat extends Component {
 
@@ -54,12 +55,17 @@ class Chat extends Component {
                 <AppBar title={selectedChannelName}/>
                 <TitleAndBackHeader title={selectedChannelName}/>
                 <Content>
-                    <MessageList messages={channelMessageList} style={{
-                        marginBottom: '60px', bottom: '60px', marginTop: '60px'
+                    <MessageList messages={channelMessageList}  style={{
+                        marginBottom: '70px', bottom: '60px', marginTop: '60px'
                     }}/>
                 </Content>
-                <MessageBox  selectedChannel={selectedChannel} scrollToBottom={this.scrollToBottom} height="60px"/>
                 <div id="bottom" ref={(el) => { this.messagesEnd = el; }}/>
+                <BottomFixed style={{
+                    height: '60px'
+                }}>
+                    <MessageBox  selectedChannel={selectedChannel} scrollToBottom={this.scrollToBottom} height="60px"/>
+                </BottomFixed>
+
             </div>
         );
     }
