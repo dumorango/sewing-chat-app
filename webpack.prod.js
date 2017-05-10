@@ -2,16 +2,25 @@ const { resolve } = require('path');
 const path = require('path');
 const webpack = require('webpack');
 
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+
+const vendor = require ('./vendor');
+
+const basePath = resolve(__dirname, 'dist');
 module.exports = {
     context: resolve(__dirname, 'src'),
-    entry: [
-        './index.js'
-    ],
+    entry: {
+        vendor,
+        app: [
+            './index.js'
+        ]
+    },
     output: {
-        filename: '[name].[hash].js',
+        filename: '[name].[chunkhash:8].js',
+        chunkFilename: '[name].[chunkhash:8].chunk.js',
         // the output bundle
 
-        path: resolve(__dirname, 'dist'),
+        path: basePath,
 
         publicPath: '/',
         // necessary for HMR to know where to load the hot update chunks
@@ -53,12 +62,13 @@ module.exports = {
             },
             comments: false
         }),
-        function() {
-            this.plugin("done", function(stats) {
-                require("fs").writeFileSync(
-                    path.join(__dirname, "dist", "stats.json"),
-                    JSON.stringify(stats.toJson()));
-            });
-        }
+        new webpack.optimize.CommonsChunkPlugin({
+            names: ['vendor', 'manifest'],
+            minChunks: Infinity
+        }),
+        new HtmlWebpackPlugin({
+            title: 'Zap da Costura',
+            template: './index.ejs'
+        })
     ]
 };
