@@ -46,23 +46,6 @@ class App extends React.Component {
         });
     }
 
-
-    componentDidMount(){
-        base.bindToState('channels', {
-            context: this,
-            state: 'channels',
-            asArray: true
-        });
-        base.bindToState(`messages`, {
-            context: this,
-            state: 'messages',
-            asArray: true,
-            queries: {
-                orderByChild: 'createdDate'
-            }
-        })
-    }
-
     render() {
         let history = createBrowserHistory();
         const { messages, channels, user, initialized } = this.state;
