@@ -1,6 +1,5 @@
 import React from 'react';
 import { BrowserRouter, Switch, Redirect } from 'react-router-dom'
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 import { Route } from 'react-router';
 import createBrowserHistory from 'history/createBrowserHistory';
 import Login from './Login'
