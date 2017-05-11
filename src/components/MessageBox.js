@@ -30,7 +30,22 @@ class MessageBox extends React.Component {
         textFieldNode.blur();
     }
 
+    onKeyUp(evt) {
+        const { message } = this.state;
+        const { selectedChannel } = this.props;
+        const cleanMessage = () => {
+            this.setState({
+                message: ''
+            });
+        };
+        this.props.scrollToBottom();
+        if(evt.keyCode === 13 && trim(message) != '') {
+            this.sendMessage(evt);
+        }
+    }
+
     sendMessage(evt) {
+        // evt.preventDefault();
         let message = trim(this.state.message);
         const { selectedChannel } = this.props;
         this.setState({
@@ -74,6 +89,7 @@ class MessageBox extends React.Component {
                     <TextField
                         name="message-box"
                         onChange={this.onChange.bind(this)}
+                        onKeyUp={this.onKeyUp.bind(this)}
                         value={this.state.message}
                         style={{
                             width: '90%',

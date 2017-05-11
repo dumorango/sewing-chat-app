@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import Message from './Message';
+import { List } from 'material-ui';
 
 const MessageList = ({ messages = [], style }) => {
     let messagesComponents = [];
@@ -9,9 +10,9 @@ const MessageList = ({ messages = [], style }) => {
         )
     });
     return (
-        <div style={style}>
+        <List style={style}>
             {messagesComponents}
-        </div>
+        </List>
     );
 };
 
