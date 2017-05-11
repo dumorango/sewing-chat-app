@@ -1,38 +1,31 @@
 import React from 'react';
 import Channel from './Channel';
-import { CircularProgress, List, Card, IconMenu, MenuItem, IconButton }  from 'material-ui';
-import AppBar from './AppBar';
-import Content from './Content';
+import { List }  from 'material-ui';
+
 import Loading from './Loading';
 
 import { withRouter } from 'react-router-dom';
 
-const ChannelList = ({ channels = [], history, user }) => {
+const ChannelList = ({ channels = [], history, style }) => {
 
-        function selectChannel(channel) {
-            history.push(`groups/${channel.key}`)
-        }
+    function selectChannel(channel) {
+        history.push(`groups/${channel.key}`)
+    }
 
-        let content;
+    let content = <Loading/>;
 
-        if(channels.length === 0) {
-            content = (<Loading/>);
-        }else {
-            let channelNodes = channels.map(channel => <Channel key={channel.key} channel={channel.name} selectChannel={() => selectChannel(channel)} />);
-            content = <List style={{
-                            paddingTop: '50px',
-                            zIndex: 1
-                        }}>
-                        {channelNodes}
-                      </List>;
-        }
+    if (channels.length > 0) {
+        let channelNodes = channels.map(channel => <Channel key={channel.key} channel={channel.name}
+                                                            selectChannel={() => selectChannel(channel)}/>);
+        content = <List style={Object.assign({
+            paddingTop: '50px',
+            zIndex: 1
+        }, style)}>
+            {channelNodes}
+        </List>;
+    }
 
-        return (<div>
-                  <AppBar title="Conversas"  avatar={user.photoURL}/>
-                  <Content>
-                      {content}
-                  </Content>
-                </div>);
-};
+    return content;
+}
 
 export default withRouter(ChannelList);

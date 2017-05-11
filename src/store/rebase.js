@@ -9,4 +9,9 @@ base.getCurrentUser = () => {
     const { uid, photoURL = '', displayName, email } = user;
     return { uid, photoURL, displayName, email };
 };
+
+base.signOut = () => {
+    base.initializedApp.auth().signOut()
+};
+
 export default base;

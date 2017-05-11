@@ -2,7 +2,7 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { AppBar, IconMenu, IconButton, FontIcon, MenuItem, Avatar } from 'material-ui';
 
-const MyAppBar = ({ history, avatar, title }) => {
+const MyAppBar = ({ history, iconElementLeft, title, iconElementRight }) => {
 
     function redirectToCreateGroup() {
         history.replace('/addgroup');
@@ -24,20 +24,9 @@ const MyAppBar = ({ history, avatar, title }) => {
             titleStyle={{
                 textAlign: 'center'
             }}
-            iconElementLeft={
-                <IconMenu
-                    iconButtonElement={
-                        <IconButton  ><FontIcon color='white' className="fa fa-bars"/></IconButton>
-                    }
-                    targetOrigin={{horizontal: 'right', vertical: 'top'}}
-                    anchorOrigin={{horizontal: 'right', vertical: 'top'}}
-                >
-                    <MenuItem onTouchTap={redirectToCreateGroup} leftIcon={<FontIcon className="fa fa-users"/>} primaryText="Criar Grupo" />
-                </IconMenu>
-            }
-            iconElementRight={
-                avatar ? <Avatar src={avatar}/> : null
-            }
+            iconElementLeft={ iconElementLeft }
+            iconElementRight={ iconElementRight }
+            showMenuIconButton={ !!iconElementLeft}
         />
     );
 };

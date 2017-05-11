@@ -4,7 +4,7 @@ import { Route } from 'react-router';
 import createBrowserHistory from 'history/createBrowserHistory';
 import Login from './Login'
 import CreateGroup from './CreateGroup'
-import ChannelList from './ChannelList'
+import InitialPage from './InitialPage'
 import Chat from './Chat'
 import base from '../store/rebase';
 import moment from 'moment';
@@ -58,7 +58,7 @@ class App extends React.Component {
         const main = (!user) ?
             (initialized ? <Login/> : <Loading/>) :
                     <Switch>
-                            <Route path="/" exact render={() => <ChannelList channels={channels} user={user}/>}/>
+                            <Route path="/" exact render={() => <InitialPage channels={channels} user={user}/>}/>
                             <Route path="/addgroup" exact render={() => <CreateGroup channels={channels}/>}/>
                             <Route path="/groups/:group" exact render={() => <Chat channels={channels} messages={messages}/>}/>
                     </Switch>
