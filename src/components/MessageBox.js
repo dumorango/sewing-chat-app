@@ -31,8 +31,7 @@ class MessageBox extends React.Component {
     }
 
     sendMessage(evt) {
-        // evt.preventDefault();
-        const { message } = this.state;
+        let message = trim(this.state.message);
         const { selectedChannel } = this.props;
         this.setState({
             message: ''
@@ -54,54 +53,40 @@ class MessageBox extends React.Component {
         );
     }
 
-    onKeyUp(evt) {
-        const { message } = this.state;
-        const { selectedChannel } = this.props;
-        const cleanMessage = () => {
-            this.setState({
-                message: ''
-            });
-        };
-        this.props.scrollToBottom();
-        if(evt.keyCode === 13 && trim(message) != '') {
-                this.sendMessage(evt);
-        }
-    }
-
     render() {
         return (
             <div style={{
-                display: 'flex'
+                display: 'flex',
+                justifyContent: 'center',
+                flexDirection: 'row'
             }}>
                 <Paper style={{
                     borderRadius: 20,
                     resize: 'none',
                     color: '#555',
                     fontSize: '1em',
-                    outline: 'auto 0px',
-                    // width: '70%',
-                    flexGrow: 2,
-                    border: '2px black',
+                    flexGrow: 5,
                     marginLeft: '5%',
-                    marginBottom: '5%',
+                    marginBottom: '5px',
+                    marginTop: '5px',
                     paddingLeft: '5%',
                 }} zDepth={5}>
                     <TextField
                         name="message-box"
                         onChange={this.onChange.bind(this)}
-                        onKeyUp={this.onKeyUp.bind(this)}
                         value={this.state.message}
                         style={{
                             width: '90%',
                         }}
+                        multiLine={true}
+                        rowsMax={1}
                         onFocus={this.props.scrollToBottom}
-                        ref={(el) => { this.textField = el; }}
                         />
                 </Paper>
                 <div style={{
                     flexGrow: 1,
-                    padding: '5px'
-
+                    padding: '5px',
+                    marginTop: '1%',
                 }}><FloatingActionButton mini={true} onTouchTap={this.clickSendButton}>
                     <FontIcon color='blue' className="fa fa-send" style={{
                         marginRight: '3px'

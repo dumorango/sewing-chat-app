@@ -7,6 +7,7 @@ import { withRouter } from 'react-router-dom';
 import AppBar from './AppBar';
 import Content from './Content';
 import BottomFixed from './BottomFixed';
+import { lightBlue50 } from 'material-ui/styles/colors';
 
 class Chat extends Component {
 
@@ -56,14 +57,19 @@ class Chat extends Component {
                 <TitleAndBackHeader title={selectedChannelName}/>
                 <Content>
                     <MessageList messages={channelMessageList}  style={{
-                        marginBottom: '70px', bottom: '60px', marginTop: '60px'
+                        marginTop: '60px',
+                        display: 'flex',
+                        backgroundColor: lightBlue50,
+                        paddingTop: channelMessageList.length < 5 ? '1000px' : '10px',
+                        paddingBottom: '60px',
+                        flexDirection: 'column'
                     }}/>
                 </Content>
                 <div id="bottom" ref={(el) => { this.messagesEnd = el; }}/>
                 <BottomFixed style={{
                     height: '60px'
                 }}>
-                    <MessageBox  selectedChannel={selectedChannel} scrollToBottom={this.scrollToBottom} height="60px"/>
+                    <MessageBox  selectedChannel={selectedChannel} scrollToBottom={this.scrollToBottom}/>
                 </BottomFixed>
 
             </div>

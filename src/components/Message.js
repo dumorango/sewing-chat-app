@@ -10,10 +10,16 @@ class Message extends React.Component {
 
     render() {
         const { user, message, createdDate } = this.props.message;
-        const { displayName } = user || {};
+        const { displayName, photoURL } = user || {};
         return (
-            <Card initiallyExpanded={true}>
+            <Card initiallyExpanded={true}
+                  style={{
+                margin: '20px',
+                marginBottom: '10px',
+                marginTop: '0px'
+            }}>
                 <CardHeader
+                    avatar={ photoURL }
                     title={displayName}
                     subtitle={createdDate ? moment(createdDate).fromNow() : ''}
                 />
