@@ -103,7 +103,11 @@ class MessageBox extends React.Component {
                     flexGrow: 1,
                     padding: '5px',
                     marginTop: '1%',
-                }}><FloatingActionButton mini={true} onTouchTap={this.clickSendButton}>
+                }}><FloatingActionButton
+                    mini={true}
+                    onTouchTap={this.clickSendButton}
+                    disabled={!this.state.message}
+                >
                     <FontIcon color='blue' className="fa fa-send" style={{
                         marginRight: '3px'
                     }}/>
