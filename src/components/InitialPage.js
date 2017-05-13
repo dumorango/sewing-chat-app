@@ -29,7 +29,7 @@ class InitialPage extends Component {
     }
 
     render() {
-        const { channels, user } = this.props;
+        const { channels, user, users } = this.props;
         return (
             <div>
                 <AppBar
@@ -40,7 +40,7 @@ class InitialPage extends Component {
                 />
 
                 <Content>
-                    <ChannelList channels={channels}/>
+                    <ChannelList channels={channels} users={users} user={user}/>
                 </Content>
                 <Drawer open={this.state.isDrawerOpen}
                         docked={false}

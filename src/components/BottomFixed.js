@@ -1,5 +1,4 @@
 import React from 'react';
-import { Paper } from 'material-ui';
 
 class BottomFixed extends React.Component {
     constructor(props) {

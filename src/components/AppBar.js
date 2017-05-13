@@ -3,11 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { AppBar, IconMenu, IconButton, FontIcon, MenuItem, Avatar } from 'material-ui';
 
 const MyAppBar = ({ history, iconElementLeft, title, iconElementRight }) => {
-
-    function redirectToCreateGroup() {
-        history.replace('/addgroup');
-    };
-
+    
     const logo = <FontIcon style={{
         color: 'white',
     }} className="fa fa-scissors"/>;

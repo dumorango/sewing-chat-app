@@ -45,7 +45,6 @@ class MessageBox extends React.Component {
     }
 
     sendMessage(evt) {
-        // evt.preventDefault();
         let message = trim(this.state.message);
         const { selectedChannel } = this.props;
         this.setState({
