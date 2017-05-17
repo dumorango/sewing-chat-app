@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import Chat from './Chat';
+import base from '../store/rebase';
 
 class ChatPage extends Component {
 
@@ -15,50 +16,72 @@ class ChatPage extends Component {
         });
     }
 
-    componentWillMount() {
-        this.setState({
-            selectedChannel: null
+    getSelectedChannelByUser() {
+        const { user } = this.props;
+        const { uid } =  this.props.match.params;
+        let key = [user.uid, uid].sort().join('-');
+        this.bindMessages(key);
+        return base.listenTo(`users/${uid}`, {
+            context: this,
+            then(receiver){
+                this.setState({
+                    channel: {
+                        key,
+                        name: receiver.displayName
+                    }
+                });
+            }
         });
     }
 
-    getSelectedChannelByUser() {
-         const { users = [], user } = this.props;
-         const { uid } =  this.props.match.params;
-         let receiver = users.find(user => user.uid === uid) || {};
-         return {
-             key: [user.uid, uid].sort().join('-'),
-             name: receiver.displayName
-         }
-
+    getSelectedChannelByGroup(){
+        let key = this.props.match.params.group;
+        this.bindMessages(key);
+        return base.listenTo(`channels/${key}`, {
+            context: this,
+            then(channel){
+                this.setState({
+                    channel: {
+                        name: channel.name,
+                        key
+                    }
+                });
+            }
+        })
     }
 
-    getSelectedChannelByGroup(){
-        let selectedChannelKey = this.props.match.params.group;
-        const { channels } = this.props;
-        let selectedChannel = (channels.find(channel => channel.key === selectedChannelKey) || {});
-        if (!selectedChannel && channels && channels.length > 0) {
-            selectedChannel = channels[0];
-        }
-        return selectedChannel;
+    bindMessages(key){
+        base.bindToState(`messages/channel/${key}`, {
+            context: this,
+            state: 'messages',
+            asArray: true,
+            queries: {
+                orderByChild: 'createdDate'
+            }
+        });
     }
 
     getSelectedChannel() {
-        if(this.props.match.params.group) {
-            return this.getSelectedChannelByGroup();
-        } else {
-            return this.getSelectedChannelByUser();
-        }
+            this.props.match.params.group ?
+            this.getSelectedChannelByGroup() :
+            this.getSelectedChannelByUser()
+    }
+
+    componentWillMount() {
+        this.setState({
+            channel: {}
+        });
+        this.getSelectedChannel();
     }
 
 
-
     render() {
-        const { messages } = this.props;
-        const { name, key } = this.getSelectedChannel();
+        const { messages, channel } = this.state;
+        const { key, name } = channel;
         const channelMessages =  key ? messages.filter(message => message.channel === key) : [];
 
         return (
-            <Chat channelName={name} channelKey={key} messages={channelMessages}/>
+            <Chat key={key} channelName={name} channelKey={key} messages={channelMessages}/>
         );
     }
 }

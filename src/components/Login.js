@@ -35,10 +35,10 @@ class Login extends React.Component {
                             }}>
                         <CardText style={{
                             'textAlign': 'center'
-                        }}>Please login</CardText>
+                        }}>Faça o login pelas redes sociais</CardText>
                         <RaisedButton style={{
                             display: 'block',
-                            }} onClick={this.loginWithGoogle} label="Login with Google"
+                            }} onClick={this.loginWithGoogle} label="Google"
                         />
                         </Card>
                     </Content>

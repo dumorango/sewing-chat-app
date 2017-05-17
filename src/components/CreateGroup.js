@@ -51,14 +51,18 @@ class CreateGroup extends React.Component {
         const { channels } = this.props;
         const members = {};
         const user = base.getCurrentUser();
-        members[user.uid] = user;
+        members[user.uid] = true;
+        let admin = {};
+        admin[user.uid] = true;
         if(group && !this.alreadyExists(group)) {
             base.push('channels', {
                 data: {
                     name: group.name,
                     creator: user,
+                    admin,
                     members,
-                    type: 'group'
+                    type: 'group',
+                    privacy: 'public'
                 }
             }).then((group) => {
                 this.goToGroup(group);

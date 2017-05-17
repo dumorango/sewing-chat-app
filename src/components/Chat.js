@@ -8,7 +8,7 @@ import Content from './Content';
 import BottomFixed from './BottomFixed';
 import { lightBlue50 } from 'material-ui/styles/colors';
 
-class ChatPage extends Component {
+class Chat extends Component {
 
     constructor(props){
         super(props);
@@ -26,7 +26,7 @@ class ChatPage extends Component {
         const { channelKey, channelName, messages } = this.props;
         return (
             <div>
-                <AppBar title={channelName}/>
+                <AppBar title={channelName || ' '}/>
                 <TitleAndBackHeader/>
                 <Content>
                     <MessageList messages={ messages } style={{
@@ -58,4 +58,4 @@ class ChatPage extends Component {
 }
 
 
-export default ChatPage;
+export default Chat;

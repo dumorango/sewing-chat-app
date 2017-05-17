@@ -1,0 +1,32 @@
+{
+  "rules": {
+    "channels": {
+      "$channel": {
+        ".read": "auth != null && (data.child('privacy').val() === 'public' || data.child('members').child(auth.uid).val() === true)",
+        ".write": "auth != null && ((newData.val() === null && data.child('admin').child(auth.uid).val() === true) || ((data.val() === null || data.child('admin').child(auth.uid).val() === true)) && newData.child('admin').child(auth.uid).val() === true)"
+      },
+      "public" : {
+        ".read": "true",
+        "$channel": {
+          ".write": "auth != null && ( (newData.val() != null && newData.child('admin').child(auth.uid).val() === true) || data.child('admin').child(auth.uid).val() === true)"
+        }
+      }
+    },
+    "users" : {
+      ".read" : "auth != null",
+      "$user": {
+        ".write" : "auth != null && auth.uid === $user"
+      }
+    },
+    "messages" : {
+      "channel": {
+        "$channel": {
+          ".read": "auth != null && ($channel.contains(auth.uid) || (root.child('channels').child($channel).child('privacy').val() === 'public' || root.child('channels').child($channel).child('members').child(auth.uid).val() === true))",
+          "$message" : {
+            ".write" : "auth != null && data.val() == null && newData.child('author').val() === auth.uid && ($channel.contains(auth.uid) || ((root.child('channels').child($channel).child('privacy').val() === 'public' || root.child('channels').child($channel).child('members').child(auth.uid).val() === true)))"
+          }
+        }
+      }
+    }
+  }
+}

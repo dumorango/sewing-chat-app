@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import Message from './Message';
 import { List } from 'material-ui';
 
-const MessageList = ({ messages = [], style }) => {
+const MessageList = ({ messages, style }) => {
     let messagesComponents = [];
     messages.map(message => {
         messagesComponents.push(

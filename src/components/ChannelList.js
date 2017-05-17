@@ -43,7 +43,7 @@ class ChannelList extends Component {
 
             let channelNodes = [
                 ...channels
-                    .map(channel => <GroupChannel deleteGroup={this.deleteGroup.bind(this)} key={channel.key} channel={channel}/>),
+                    .map(channel => <GroupChannel deleteGroup={this.deleteGroup.bind(this)} key={channel.key} channel={channel} user={user}/>),
                 ...users
                     .filter(u => u.uid !== user.uid) // Filter currentUser
                     .map(u => <UserChannel key={u.key} user={u} />)

@@ -19,18 +19,10 @@ class App extends React.Component {
                 user,
                 initialized: true
             });
-            base.bindToState('channels', {
+            base.bindToState('channels/public/', {
                 context: this,
-                state: 'channels',
-                asArray: true
-            });
-            base.bindToState(`messages`, {
-                context: this,
-                state: 'messages',
                 asArray: true,
-                queries: {
-                    orderByChild: 'createdDate'
-                }
+                state: 'channels'
             });
             base.bindToState('users', {
                 context: this,
@@ -72,8 +64,8 @@ class App extends React.Component {
                     <Switch>
                             <Route path="/" exact render={() => <InitialPage channels={channels} user={user} users={users}/>}/>
                             <Route path="/addgroup" exact render={() => <CreateGroup channels={channels}/>}/>
-                            <Route path="/groups/:group" exact render={() => <ChatPage channels={channels} messages={messages} />}/>
-                            <Route path="/users/:uid/messages" exact render={() => <ChatPage channels={channels} messages={messages} users={users} user={user}/>}/>
+                            <Route path="/groups/:group" exact render={() => <ChatPage channels={channels} />}/>
+                            <Route path="/users/:uid/messages" exact render={() => <ChatPage channels={channels} users={users} user={user}/>}/>
                     </Switch>
                 ;
         return (

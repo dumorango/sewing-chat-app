@@ -33,11 +33,6 @@ class MessageBox extends React.Component {
     onKeyUp(evt) {
         const { message } = this.state;
         const { selectedChannel } = this.props;
-        const cleanMessage = () => {
-            this.setState({
-                message: ''
-            });
-        };
         this.props.scrollToBottom();
         if(evt.keyCode === 13 && trim(message) != '') {
             this.sendMessage(evt);
@@ -46,22 +41,21 @@ class MessageBox extends React.Component {
 
     sendMessage(evt) {
         let message = trim(this.state.message);
+        const user = base.getCurrentUser();
         const { selectedChannel } = this.props;
-        this.setState({
-            message: ''
-        });
         this.props.scrollToBottom();
         base.push(
-            `messages`,
+            `messages/channel/${selectedChannel}`,
             {
                 data: {
                     message,
                     createdDate: new Date().getTime(),
                     channel: selectedChannel,
-                    user: base.getCurrentUser()
+                    user ,
+                    author: user.uid
                 },
                 then(err){
-                    console.log('Sent a new message', message);
+                    console.log('Sent a new message:', message);
                 }
             }
         );
