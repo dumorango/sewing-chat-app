@@ -26,7 +26,6 @@ class MessageBox extends React.Component {
 
     blurTextField() {
         const textFieldNode = document.getElementsByName('message-box')[0];
-        console.log(textFieldNode);
         textFieldNode.blur();
     }
 
@@ -35,12 +34,16 @@ class MessageBox extends React.Component {
         const { selectedChannel } = this.props;
         this.props.scrollToBottom();
         if(evt.keyCode === 13 && trim(message) != '') {
+            this.blurTextField();
             this.sendMessage(evt);
         }
     }
 
     sendMessage(evt) {
         let message = trim(this.state.message);
+        this.setState({
+            message: ''
+        });
         const user = base.getCurrentUser();
         const { selectedChannel } = this.props;
         this.props.scrollToBottom();

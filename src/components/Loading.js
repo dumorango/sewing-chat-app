@@ -3,7 +3,7 @@ import { CircularProgress } from 'material-ui';
 
 const Loading = ({ style }) => {
     style = Object.assign({
-        paddingTop: '20px',
+        paddingTop: '50%',
         paddingBottom: '20px',
         margin: '0 auto',
         display: 'block',

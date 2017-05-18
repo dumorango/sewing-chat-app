@@ -18,11 +18,6 @@ class CreateGroup extends React.Component {
             isPublic: true,
             members: {}
         };
-        base.bindToState('users', {
-            context: this,
-            state: 'users',
-            asArray: true
-        });
     }
 
     validateGroup(params){
@@ -99,6 +94,14 @@ class CreateGroup extends React.Component {
                 this.goToGroup(group);
             });
         }
+    }
+
+    componentDidMount(){
+        base.bindToState('users', {
+            context: this,
+            state: 'users',
+            asArray: true
+        });
     }
 
     render() {

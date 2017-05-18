@@ -55,7 +55,10 @@ class CreateGroupForm extends Component {
             let user = users.find(user => user.uid === key) || {};
             return <Chip
                 onRequestDelete={() => this.handleRequestDelete(key)}
-                // onTouchTap={handleTouchTap}
+                key={key}
+                style={{
+                    marginBottom: '10px'
+                }}
                 >
                 <Avatar src={user.photoURL} />
                 {user.displayName}
@@ -93,6 +96,7 @@ class CreateGroupForm extends Component {
                                searchText={this.state.searchText}
                                onNewRequest={this.onAddMember.bind(this)}
                                onUpdateInput={this.handleUpdateInput.bind(this)}
+                               filter={AutoComplete.caseInsensitiveFilter}
                             />
                             { membersList }
                         </div>

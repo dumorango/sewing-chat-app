@@ -37,10 +37,9 @@ class ChannelList extends Component {
     };
 
     render() {
-        let { channels = [], users = [], user, style } = this.props;
+        let { channels, users, user, style } = this.props;
         let content = <Loading/>;
-        if (channels.length > 0 || users.length > 0) {
-
+        if (channels || users) {
             let channelNodes = [
                 ...channels
                     .map(channel => <GroupChannel deleteGroup={this.deleteGroup.bind(this)} key={channel.key} channel={channel} user={user}/>),
@@ -49,7 +48,7 @@ class ChannelList extends Component {
                     .map(u => <UserChannel key={u.key} user={u} />)
             ].map((node, i) => (<div key={`channelDivider${i}`}>{node}<Divider inset={true}/></div>));
             content = <List style={Object.assign({
-                paddingTop: '50px',
+                paddingTop: '70px',
                 zIndex: 1
             }, style)}>
                 {channelNodes}

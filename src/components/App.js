@@ -48,8 +48,6 @@ class App extends React.Component {
     componentWillMount() {
         const user = base.getCurrentUser();
         this.setState({
-            messages: [],
-            channels: [],
             user,
             initialized: false
         });
@@ -57,10 +55,10 @@ class App extends React.Component {
 
     render() {
         let history = createBrowserHistory();
-        let { messages, channels, user, initialized, users } = this.state;
-
-        const main = (!user) ?
-            (initialized ? <Login/> : <Loading/>) :
+        let { channels, user, initialized, users } = this.state;
+        let main = <Loading/>;
+        if(initialized && !user) main = <Login/>;
+        if(users && channels) main =
                     <Switch>
                             <Route path="/" exact render={() => <InitialPage channels={channels} user={user} users={users}/>}/>
                             <Route path="/addgroup" exact render={() => <CreateGroup channels={channels}/>}/>
