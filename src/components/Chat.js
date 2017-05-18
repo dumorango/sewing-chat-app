@@ -33,7 +33,7 @@ class Chat extends Component {
                         marginTop: '60px',
                         display: 'flex',
                         backgroundColor: lightBlue50,
-                        paddingTop: messages.length < 5 ? '1000px' : '10px',
+                        paddingTop: (!messages || messages.length < 5) ? '1000px' : '10px',
                         paddingBottom: '60px',
                         flexDirection: 'column'
                     }}/>

@@ -13,9 +13,9 @@ class Message extends React.Component {
     }
 
     isUserMessage(){
-        const { user } = this.props.message;
+        const { author } = this.props.message;
         const currentUser = base.getCurrentUser();
-        return currentUser.uid === user.uid;
+        return currentUser.uid === author;
     }
     render() {
         const { user, message, createdDate } = this.props.message;

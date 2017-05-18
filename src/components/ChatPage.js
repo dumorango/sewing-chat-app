@@ -78,10 +78,8 @@ class ChatPage extends Component {
     render() {
         const { messages, channel } = this.state;
         const { key, name } = channel;
-        const channelMessages =  key ? messages.filter(message => message.channel === key) : [];
-
         return (
-            <Chat key={key} channelName={name} channelKey={key} messages={channelMessages}/>
+            <Chat key={key} channelName={name} channelKey={key} messages={messages}/>
         );
     }
 }

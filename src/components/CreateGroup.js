@@ -7,26 +7,33 @@ import trim from 'trim';
 class CreateGroup extends React.Component {
     constructor(props) {
         super(props);
-        this.updateField = this.updateField.bind(this);
+        this.changeName = this.changeName.bind(this);
         this.createGroup = this.createGroup.bind(this);
         this.goToGroup = this.goToGroup.bind(this);
         this.alreadyExists = this.alreadyExists.bind(this);
-    }
-
-    componentWillMount() {
-        this.setState({
-            group: {}
+        this.togglePublic = this.togglePublic.bind(this);
+        this.addMember = this.addMember.bind(this);
+        this.removeMember = this.removeMember.bind(this);
+        this.state = {
+            isPublic: true,
+            members: {}
+        };
+        base.bindToState('users', {
+            context: this,
+            state: 'users',
+            asArray: true
         });
     }
 
-    updateField(event) {
-        const field = event.target.name;
-        let group = this.state.group;
-        group[field] = trim(event.target.value);
-        this.setState({group});
-        if(this.alreadyExists(group)){
+    validateGroup(params){
+        const { isPublic, name } = params;
+        if(!name){
             this.setState({
-                error: 'Já existe um grupo com esse nome'
+                error: 'Defina um nome pro grupo'
+            })
+        }else if(isPublic && this.alreadyExists(name)){
+            this.setState({
+                error: 'Já existe um grupo público com esse nome'
             })
         } else {
             this.setState({
@@ -35,34 +42,58 @@ class CreateGroup extends React.Component {
         }
     }
 
+    changeName(rawName) {
+        const name = trim(rawName);
+        this.setState({
+            name
+        });
+        this.validateGroup({ name, isPublic: this.state.isPublic });
+    }
+
+    addMember(memberUid) {
+        let members = this.state.members;
+        members[memberUid] = true;
+        this.setState({ members });
+    }
+
+    removeMember(memberUid) {
+        let members = this.state.members;
+        delete members[memberUid];
+        this.setState({ members });
+    }
+
+    togglePublic(_, isPublic){
+        this.setState({ isPublic });
+        this.validateGroup({ name: this.state.name, isPublic });
+    }
+
     goToGroup(group) {
         this.props.history.replace(`/groups/${group.key}`);
     }
 
-    alreadyExists(group) {
+    alreadyExists(name) {
         const { channels } = this.props;
         return channels
             .filter(channel => channel.type === 'group')
-            .find(channel => channel.name === group.name);
+            .find(channel => channel.name === name);
     }
 
-    createGroup(event) {
-        const { group } = this.state;
+    createGroup() {
+        let { name, isPublic, members } = this.state;
         const { channels } = this.props;
-        const members = {};
         const user = base.getCurrentUser();
         members[user.uid] = true;
         let admin = {};
         admin[user.uid] = true;
-        if(group && !this.alreadyExists(group)) {
+        if(name && !this.validateGroup({ name, isPublic })) {
             base.push('channels', {
                 data: {
-                    name: group.name,
+                    name,
                     creator: user,
                     admin,
                     members,
                     type: 'group',
-                    privacy: 'public'
+                    privacy: isPublic ? 'public' : 'private'
                 }
             }).then((group) => {
                 this.goToGroup(group);
@@ -72,7 +103,18 @@ class CreateGroup extends React.Component {
 
     render() {
         return (
-            <CreateGroupForm updateField={this.updateField} createGroup={this.createGroup} goBack={this.goBack} error={this.state.error}/>
+            <CreateGroupForm
+                changeName={this.changeName}
+                createGroup={this.createGroup}
+                goBack={this.goBack}
+                error={this.state.error}
+                isPublic={this.state.isPublic}
+                tooglePublic={this.togglePublic}
+                users={this.state.users}
+                addMember={this.addMember}
+                removeMember={this.removeMember}
+                members={this.state.members}
+            />
         );
     }
 }
