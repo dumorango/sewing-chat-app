@@ -30,6 +30,7 @@ class InitialPage extends Component {
 
     singOut(){
         base.signOut();
+        this.props.history.push('/');
     }
 
     setFilter(evt) {

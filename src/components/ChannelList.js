@@ -47,18 +47,20 @@ class ChannelList extends Component {
                     .filter(u => u.uid !== user.uid) // Filter currentUser
                     .map(u => <UserChannel key={u.key} user={u} />)
             ].map((node, i) => (<div key={`channelDivider${i}`}>{node}<Divider inset={true}/></div>));
-            content = <List style={Object.assign({
-                paddingTop: '70px',
-                zIndex: 1
-            }, style)}>
-                {channelNodes}
-                <Snackbar
-                    open={this.state.open}
-                    message={`O grupo ${this.state.deletedGroupName} foi deletado`}
-                    autoHideDuration={4000}
-                    onRequestClose={this.handleRequestClose}
-                />
-            </List>;
+
+            content =
+                <List style={Object.assign({
+                    paddingTop: '70px',
+                    zIndex: 1
+                }, style)}>
+                    {channelNodes}
+                    <Snackbar
+                        open={this.state.open}
+                        message={`O grupo ${this.state.deletedGroupName} foi deletado`}
+                        autoHideDuration={4000}
+                        onRequestClose={this.handleRequestClose}
+                    />
+                </List>;
         }
 
         return content;

@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import { TextField, Checkbox, FontIcon, AutoComplete, MenuItem, Avatar, Chip } from 'material-ui';
+import { TextField, Checkbox, FontIcon, AutoComplete, MenuItem, Avatar, List, ListItem, Toggle } from 'material-ui';
 import TitleAndBackHeader from './TitleAndBackHeader';
 import AppBar from './AppBar';
 import Content from './Content';
+import Loading from './Loading';
+import GroupParticipantsList from './GroupParticipantsList';
 
 class CreateGroupForm extends Component {
 
@@ -10,7 +12,8 @@ class CreateGroupForm extends Component {
         super(props);
         this.state = {
             searchText : ''
-        }
+        };
+        this.isAdmin = this.isAdmin.bind(this);
     }
 
     onChangeName = (event) => {
@@ -31,12 +34,16 @@ class CreateGroupForm extends Component {
         });
     };
 
-    handleRequestDelete = (uid) => {
-        this.props.removeMember(uid);
-    };
+    isAdmin(){
+        const { currentUser, group} = this.props;
+        return group.admin[currentUser.uid]
+    }
 
     render() {
-        const { changeName, createGroup, error, isPublic, tooglePublic, users = [], addMember, members = {}} = this.props;
+        const {  saveGroup, error, tooglePublic, users = [], currentUser, title, ready, group, setAdmin, removeMember} = this.props;
+        const isPublic = group.privacy === 'public';
+        const members = group.members;
+        if(!ready) return <Loading/>;
         const { searchText } = this.state;
         const formElementStyle = {
             margin: '20px',
@@ -51,33 +58,22 @@ class CreateGroupForm extends Component {
             /> )
         }));
 
-        const membersList = Object.keys(members).map((key) => {
-            let user = users.find(user => user.uid === key) || {};
-            return <Chip
-                onRequestDelete={() => this.handleRequestDelete(key)}
-                key={key}
-                style={{
-                    marginBottom: '10px'
-                }}
-                >
-                <Avatar src={user.photoURL} />
-                {user.displayName}
-            </Chip>
-        });
+
         return (
                 <div>
-                    <AppBar title="Criar Grupo"/>
-                    <TitleAndBackHeader title="Criar Grupo" rightAction={createGroup} rightLegend="Criar"/>
+                    <AppBar title={title}/>
+                    <TitleAndBackHeader/>
                     <Content>
                         <div style={{ marginBottom: '60px', marginTop: '60px', marginLeft: '20px'}}>
                             <TextField
                                 hintText="Costureiras de Plantão"
                                 floatingLabelText="Nome do Grupo"
                                 multiLine={false}
-                                name="name"
                                 onChange={this.onChangeName.bind(this)}
                                 errorText={error}
                                 style={formElementStyle}
+                                value={group.name || ''}
+                                disabled={!this.isAdmin()}
                             />
                             <Checkbox
                                 checkedIcon={<FontIcon className="fa fa-unlock"/>}
@@ -86,19 +82,31 @@ class CreateGroupForm extends Component {
                                 style={formElementStyle}
                                 defaultChecked={isPublic}
                                 onCheck={tooglePublic}
+                                disabled={!this.isAdmin()}
+
                             />
                             <AutoComplete
                                hintText="Digite o nome de alguém..."
                                dataSource={usersList}
                                floatingLabelText="Participantes"
-                               style={formElementStyle}
+                               style={Object.assign({
+                                   display: this.isAdmin() ? 'inherit' : 'none'
+                               },formElementStyle)}
                                fullWidth={true}
                                searchText={this.state.searchText}
                                onNewRequest={this.onAddMember.bind(this)}
                                onUpdateInput={this.handleUpdateInput.bind(this)}
                                filter={AutoComplete.caseInsensitiveFilter}
                             />
-                            { membersList }
+                            <GroupParticipantsList
+                                currentUser={currentUser}
+                                users={users}
+                                group={group}
+                                members={group.members}
+                                isCurrentUserAdmin={this.isAdmin()}
+                                setAdmin={setAdmin}
+                                removeMember={removeMember}
+                            />
                         </div>
                     </Content>
                 </div>

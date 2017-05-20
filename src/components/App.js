@@ -57,15 +57,19 @@ class App extends React.Component {
         let history = createBrowserHistory();
         let { channels, user, initialized, users } = this.state;
         let main = <Loading/>;
-        if(initialized && !user) main = <Login/>;
-        if(users && channels) main =
-                    <Switch>
-                            <Route path="/" exact render={() => <InitialPage channels={channels} user={user} users={users}/>}/>
-                            <Route path="/addgroup" exact render={() => <CreateGroup channels={channels}/>}/>
-                            <Route path="/groups/:group" exact render={() => <ChatPage channels={channels} />}/>
-                            <Route path="/users/:uid/messages" exact render={() => <ChatPage channels={channels} users={users} user={user}/>}/>
-                    </Switch>
-                ;
+        if(initialized && !user) {
+            main = <Login/>;
+        }else if(users && channels) {
+            main =
+                <Switch>
+                    <Route path="/" exact render={() => <InitialPage channels={channels} user={user} users={users}/>}/>
+                    <Route path="/addgroup" exact render={() => <CreateGroup channels={channels}/>}/>
+                    <Route path="/groups/:group" exact render={() => <ChatPage channels={channels}/>}/>
+                    <Route path="/groups/:group/details" exact render={() => <CreateGroup channels={channels}/>}/>
+                    <Route path="/users/:uid/messages" exact
+                           render={() => <ChatPage channels={channels} users={users} user={user}/>}/>
+                </Switch>;
+        }
         return (
             <BrowserRouter history={ history } >
                 <div>

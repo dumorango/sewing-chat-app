@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import Chat from './Chat';
 import base from '../store/rebase';
+import _ from 'lodash';
 
 class ChatPage extends Component {
 
@@ -17,37 +18,22 @@ class ChatPage extends Component {
     }
 
     getSelectedChannelByUser() {
-        const { user } = this.props;
+        const { user, users } = this.props;
         const { uid } =  this.props.match.params;
-        let key = [user.uid, uid].sort().join('-');
-        this.bindMessages(key);
-        return base.listenTo(`users/${uid}`, {
-            context: this,
-            then(receiver){
-                this.setState({
-                    channel: {
-                        key,
-                        name: receiver.displayName
-                    }
-                });
-            }
+        const key = [user.uid, uid].sort().join('-');
+        const otherUser = users.find(user => user.key === uid);
+        this.setState({
+            channel: { key, name: otherUser.displayName }
         });
+        return this.bindMessages(key);
     }
 
     getSelectedChannelByGroup(){
         let key = this.props.match.params.group;
-        this.bindMessages(key);
-        return base.listenTo(`channels/${key}`, {
-            context: this,
-            then(channel){
-                this.setState({
-                    channel: {
-                        name: channel.name,
-                        key
-                    }
-                });
-            }
-        })
+        this.setState({
+            channel: this.props.channels.find(channel => channel.key === key)
+        });
+        return this.bindMessages(key);
     }
 
     bindMessages(key){

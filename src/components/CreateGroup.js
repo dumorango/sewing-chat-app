@@ -3,6 +3,7 @@ import base from '../store/rebase';
 import CreateGroupForm from './CreateGroupForm';
 import { withRouter } from 'react-router-dom';
 import trim from 'trim';
+import moment from 'moment';
 
 class CreateGroup extends React.Component {
     constructor(props) {
@@ -14,109 +15,168 @@ class CreateGroup extends React.Component {
         this.togglePublic = this.togglePublic.bind(this);
         this.addMember = this.addMember.bind(this);
         this.removeMember = this.removeMember.bind(this);
+        this.getGroupId = this.getGroupId.bind(this);
+        this.updateGroup = this.updateGroup.bind(this);
+        this.setAdmin = this.setAdmin.bind(this);
+        const user = base.getCurrentUser();
+        const members = {};
+        members[user.uid] = true;
+        const admin = {};
+        admin[user.uid] = true;
         this.state = {
-            isPublic: true,
-            members: {}
+            group : {
+                privacy: 'public',
+                members,
+                admin
+            },
+            ready: false,
+            user
         };
     }
 
-    validateGroup(params){
-        const { isPublic, name } = params;
-        if(!name){
-            this.setState({
-                error: 'Defina um nome pro grupo'
-            })
-        }else if(isPublic && this.alreadyExists(name)){
-            this.setState({
-                error: 'Já existe um grupo público com esse nome'
-            })
+    validateGroup(group){
+        let error;
+        if(!group.name) {
+            error = 'Defina um nome pro grupo';
+        }else if(this.alreadyExists(group)){
+            error =  'Já existe um grupo com esse nome'
         } else {
-            this.setState({
-                error: undefined
-            })
+           error = null;
         }
+        this.setState({ error });
+        return error;
     }
 
-    changeName(rawName) {
-        const name = trim(rawName);
-        this.setState({
-            name
-        });
-        this.validateGroup({ name, isPublic: this.state.isPublic });
+    isAdmin() {
+
+    }
+
+    changeName(name) {
+        let group = this.state.group;
+        group.name = name;
+        this.setState({ group });
+        this.validateGroup(group);
     }
 
     addMember(memberUid) {
-        let members = this.state.members;
-        members[memberUid] = true;
-        this.setState({ members });
+        let group = this.state.group;
+        group.members[memberUid] = true;
+        this.setState({ group });
+    }
+
+    setAdmin(userId, value){
+        let group = this.state.group;
+        group.admin[userId] = value;
+        this.setState({ group });
     }
 
     removeMember(memberUid) {
-        let members = this.state.members;
-        delete members[memberUid];
-        this.setState({ members });
+        let group = Object.assign(this.state.group);
+        group.members[memberUid] = false;
+        this.setState({ group });
     }
 
     togglePublic(_, isPublic){
-        this.setState({ isPublic });
-        this.validateGroup({ name: this.state.name, isPublic });
+        let group = this.state.group;
+        group.privacy = isPublic ?  'public' : 'private';
+        this.setState({ group });
+        this.validateGroup(group);
     }
 
     goToGroup(group) {
         this.props.history.replace(`/groups/${group.key}`);
     }
 
-    alreadyExists(name) {
+    goToHome() {
+        this.props.history.replace('/');
+    }
+
+    alreadyExists(newGroup) {
         const { channels } = this.props;
         return channels
-            .filter(channel => channel.type === 'group')
-            .find(channel => channel.name === name);
+            .filter(channel => channel.type === 'group' && channel.key !== this.getGroupId())
+            .find(channel => trim(channel.name) === trim(newGroup.name) && channel.privacy === newGroup.privacy);
     }
 
     createGroup() {
-        let { name, isPublic, members } = this.state;
+        const { group, user }  = this.state;
         const { channels } = this.props;
-        const user = base.getCurrentUser();
-        members[user.uid] = true;
         let admin = {};
         admin[user.uid] = true;
-        if(name && !this.validateGroup({ name, isPublic })) {
+        if(!this.validateGroup(group)) {
+            group.creator = user;
+            group.type = 'group';
+            group.createdAt = moment.now();
+            group.admin = admin;
             base.push('channels', {
-                data: {
-                    name,
+                data: Object.assign({
+                    name: trim(group.name),
                     creator: user,
-                    admin,
-                    members,
                     type: 'group',
-                    privacy: isPublic ? 'public' : 'private'
-                }
+                    createdAt:  moment.now(),
+                    admin
+                }, group)
             }).then((group) => {
                 this.goToGroup(group);
             });
         }
     }
 
-    componentDidMount(){
+    updateGroup(){
+        const { group }  = this.state;
+        if(!this.validateGroup(group)) {
+            group.updateAt = moment.now();
+            base.update(`channels/${this.getGroupId()}`, {
+                data: group,
+            });
+            this.goToHome();
+        }
+    }
+
+    getGroupId() {
+        return this.props.match.params.group;
+    }
+
+    componentWillMount(){
         base.bindToState('users', {
             context: this,
             state: 'users',
             asArray: true
+        });
+        const groupId =  this.getGroupId();
+        if(!groupId) {
+            this.setState({
+                ready: true
+            })
+        }
+        base.syncState(`channels/${groupId}`, {
+            context: this,
+            state: 'group',
+            then() {
+                this.setState({
+                    ready: true
+                })
+            }
         });
     }
 
     render() {
         return (
             <CreateGroupForm
+                title={this.state.ready && this.getGroupId() ? this.state.group.name : 'Criar Grupo' }
                 changeName={this.changeName}
-                createGroup={this.createGroup}
+                saveGroup={this.getGroupId()? this.updateGroup : this.createGroup }
                 goBack={this.goBack}
                 error={this.state.error}
                 isPublic={this.state.isPublic}
                 tooglePublic={this.togglePublic}
                 users={this.state.users}
+                currentUser={this.state.user}
                 addMember={this.addMember}
                 removeMember={this.removeMember}
-                members={this.state.members}
+                ready={this.state.ready}
+                group={this.state.group}
+                setAdmin={this.setAdmin}
             />
         );
     }

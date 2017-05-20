@@ -23,7 +23,8 @@ class GroupChannel extends Component {
     }
 
     openGroupDetails() {
-
+        const { channel } = this.props;
+        this.props.history.push(`groups/${channel.key}/details`)
     }
 
     render() {
