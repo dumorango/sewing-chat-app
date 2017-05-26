@@ -149,15 +149,17 @@ class CreateGroup extends React.Component {
                 ready: true
             })
         }
-        base.syncState(`channels/${groupId}`, {
-            context: this,
-            state: 'group',
-            then() {
-                this.setState({
-                    ready: true
-                })
-            }
-        });
+        if(groupId) {
+            base.syncState(`channels/${groupId}`, {
+                context: this,
+                state: 'group',
+                then() {
+                    this.setState({
+                        ready: true
+                    })
+                }
+            });
+        }
     }
 
     render() {
@@ -165,7 +167,7 @@ class CreateGroup extends React.Component {
             <CreateGroupForm
                 title={this.state.ready && this.getGroupId() ? this.state.group.name : 'Criar Grupo' }
                 changeName={this.changeName}
-                saveGroup={this.getGroupId()? this.updateGroup : this.createGroup }
+                createGroup={this.getGroupId()?  null : this.createGroup }
                 goBack={this.goBack}
                 error={this.state.error}
                 isPublic={this.state.isPublic}

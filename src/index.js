@@ -8,12 +8,15 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 
 injectTapEventPlugin();
 
-// import { AppContainer } from 'react-hot-loader';
-// AppContainer is a necessary wrapper component for HMR
+import * as OfflinePluginRuntime from 'offline-plugin/runtime';
+OfflinePluginRuntime.install();
 
 import App from './components/App';
 
 const muiTheme = getMuiTheme({
+    appBar: {
+        height: 50,
+    },
     palette: {
         primary1Color: blue500,
         primary2Color: blue700,

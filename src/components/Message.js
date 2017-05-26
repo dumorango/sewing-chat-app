@@ -22,6 +22,7 @@ class Message extends React.Component {
         const { displayName, photoURL } = user || {};
         const avatar =  !this.isUserMessage() ? <Avatar
                 src={photoURL}
+                onError={(e)=>{e.target.src=undefined}}
                 size={30}
                 style={{
                     resize: 'none'

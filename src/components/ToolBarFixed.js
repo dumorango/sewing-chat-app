@@ -3,30 +3,24 @@ import {
     Toolbar
 } from 'material-ui';
 
-const ToolBarFixed = ({ style = {}, children })  => {
+import muiThemeable from 'material-ui/styles/muiThemeable';
+
+const ToolBarFixed = ({ style = {}, children, muiTheme })  => {
         style = Object.assign({
-            zIndex: 1,
-            position: 'fixed',
-            width: '100%',
-            display: 'block',
-            border: '0px',
             backgroundColor: 'white',
-            bottom: '0px'
+            position: 'fixed',
+            zIndex: 2,
+            top: muiTheme.appBar.height,
+            width: '100%',
+            noGutter: true,
+            display: 'flex'
         }, style);
 
         return (
-            <Toolbar style={{
-                backgroundColor: 'white',
-                position: 'fixed',
-                zIndex: 3,
-                top: '60px',
-                width: '100%',
-                noGutter: true,
-                display: 'flex'
-            }}>
+            <Toolbar style={style}>
                 {children}
             </Toolbar>
         );
 };
 
-export default ToolBarFixed;
+export default muiThemeable()(ToolBarFixed);

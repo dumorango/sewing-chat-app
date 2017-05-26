@@ -1,8 +1,9 @@
 import React from 'react';
+import muiThemeable from 'material-ui/styles/muiThemeable';
 
-const Content = ({ children, style }) => {
+const Content = ({ children, style, muiTheme }) => {
             style = Object.assign({
-                    paddingTop: '60px',
+                    paddingTop: muiTheme.appBar.height + muiTheme.toolbar.height,
                     zIndex: 0
                 }, style);
             return <div style={ style }>
@@ -10,4 +11,4 @@ const Content = ({ children, style }) => {
             </div>;
         };
 
-export default Content;
+export default muiThemeable()(Content);

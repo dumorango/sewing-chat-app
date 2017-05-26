@@ -1,8 +1,9 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import { TextField, FloatingActionButton, Paper, FontIcon } from 'material-ui';
+import { TextField, FloatingActionButton, Paper } from 'material-ui';
 import trim from 'trim';
 import base from '../store/rebase';
+
+import Send from 'material-ui/svg-icons/content/send';
 
 class MessageBox extends React.Component {
     constructor(props) {
@@ -31,7 +32,6 @@ class MessageBox extends React.Component {
 
     onKeyUp(evt) {
         const { message } = this.state;
-        const { selectedChannel } = this.props;
         this.props.scrollToBottom();
         if(evt.keyCode === 13 && trim(message) != '') {
             this.blurTextField();
@@ -39,7 +39,7 @@ class MessageBox extends React.Component {
         }
     }
 
-    sendMessage(evt) {
+    sendMessage() {
         let message = trim(this.state.message);
         this.setState({
             message: ''
@@ -58,7 +58,9 @@ class MessageBox extends React.Component {
                     author: user.uid
                 },
                 then(err){
-                    console.log('Sent a new message:', message);
+                    if(!err) {
+                        console.log('Sent a new message:', message);
+                    }
                 }
             }
         );
@@ -104,9 +106,7 @@ class MessageBox extends React.Component {
                     onTouchTap={this.clickSendButton}
                     disabled={!this.state.message}
                 >
-                    <FontIcon color='blue' className="fa fa-send" style={{
-                        marginRight: '3px'
-                    }}/>
+                    <Send/>
                 </FloatingActionButton></div>
             </div>
         );

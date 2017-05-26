@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
-import { TextField, Checkbox, FontIcon, AutoComplete, MenuItem, Avatar, List, ListItem, Toggle } from 'material-ui';
+import { TextField, Checkbox, AutoComplete, MenuItem, Avatar } from 'material-ui';
 import TitleAndBackHeader from './TitleAndBackHeader';
 import AppBar from './AppBar';
 import Content from './Content';
 import Loading from './Loading';
 import GroupParticipantsList from './GroupParticipantsList';
+
+import LockOpen from 'material-ui/svg-icons/action/lock-open';
+import Lock from 'material-ui/svg-icons/action/lock';
 
 class CreateGroupForm extends Component {
 
@@ -40,11 +43,9 @@ class CreateGroupForm extends Component {
     }
 
     render() {
-        const {  saveGroup, error, tooglePublic, users = [], currentUser, title, ready, group, setAdmin, removeMember} = this.props;
+        const {  createGroup, error, tooglePublic, users = [], currentUser, title, ready, group, setAdmin, removeMember} = this.props;
         const isPublic = group.privacy === 'public';
-        const members = group.members;
         if(!ready) return <Loading/>;
-        const { searchText } = this.state;
         const formElementStyle = {
             margin: '20px',
             maxWidth: '250px'
@@ -61,10 +62,11 @@ class CreateGroupForm extends Component {
 
         return (
                 <div>
+
                     <AppBar title={title}/>
-                    <TitleAndBackHeader/>
+                    <TitleAndBackHeader title="Criar Grupo" rightAction={createGroup} rightLegend="Criar"/>
                     <Content>
-                        <div style={{ marginBottom: '60px', marginTop: '60px', marginLeft: '20px'}}>
+                        <div style={{ padding: 20 }}>
                             <TextField
                                 hintText="Costureiras de Plantão"
                                 floatingLabelText="Nome do Grupo"
@@ -76,8 +78,8 @@ class CreateGroupForm extends Component {
                                 disabled={!this.isAdmin()}
                             />
                             <Checkbox
-                                checkedIcon={<FontIcon className="fa fa-unlock"/>}
-                                uncheckedIcon={<FontIcon className="fa fa-lock"/>}
+                                checkedIcon={<LockOpen/>}
+                                uncheckedIcon={<Lock/>}
                                 label={ isPublic ? 'Público' : 'Privado'}
                                 style={formElementStyle}
                                 defaultChecked={isPublic}

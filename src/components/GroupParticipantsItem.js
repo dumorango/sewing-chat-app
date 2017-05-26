@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
 import {
-    List, ListItem, Avatar, IconMenu, IconButton, MenuItem, FontIcon, Divider
+    ListItem, Avatar, IconMenu, IconButton, MenuItem, Divider
 } from 'material-ui';
+import MenuItemWithConfirmationDialog from './MenuItemWithConfirmationDialog';
+
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
+import SupervisorAccount from 'material-ui/svg-icons/action/supervisor-account';
+import Delete from 'material-ui/svg-icons/action/delete';
 
 class GroupParticipantsItem extends Component {
 
@@ -21,7 +25,7 @@ class GroupParticipantsItem extends Component {
     }
 
     render() {
-        const {groupUser, isGroupUserAdmin, isCurrentUser, isCurrentUserAdmin, setAdmin, removeMember} = this.props;
+        const {groupUser, isGroupUserAdmin, isCurrentUser, setAdmin, removeMember} = this.props;
         return <div><ListItem
             leftAvatar={<Avatar src={groupUser.photoURL}/>}
             primaryText={groupUser.displayName}
@@ -39,15 +43,20 @@ class GroupParticipantsItem extends Component {
                     </IconButton>}
                     onTouchTap={this.toggleMenu}
                 >
-                    <MenuItem rightIcon={<FontIcon className="fa fa-id-card"/>}
+                    <MenuItem rightIcon={<SupervisorAccount/>}
                               onTouchTap={() => {
                                   this.toggleMenu();
                                   setAdmin(groupUser.uid, !isGroupUserAdmin)
                               }}
                     >{isGroupUserAdmin ? 'Tornar Usuário Comum' : 'Tornar Administrador'}</MenuItem>
-                    <MenuItem rightIcon={<FontIcon className="fa fa-trash"/>}
-                              onTouchTap={() => removeMember(groupUser.uid)}
-                    >Remover do Grupo</MenuItem>
+                    <MenuItemWithConfirmationDialog
+                        key={`${groupUser.key}-delete`}
+                        title="Apagar"
+                        confirmationTitle={`Deseja realmente remover ${groupUser.displayName} do grupo ?`}
+                        rightIcon={<Delete/>}
+                        onConfirm={() => removeMember(groupUser.uid)}
+                    />
+
                 </IconMenu> : null
             }
         >

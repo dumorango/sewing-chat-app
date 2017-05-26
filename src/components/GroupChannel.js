@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
-import { ListItem, Avatar, IconMenu, IconButton, MenuItem, FontIcon } from 'material-ui';
+import { ListItem, Avatar, IconMenu, IconButton, MenuItem } from 'material-ui';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import { withRouter } from 'react-router-dom';
 import MenuItemWithConfirmationDialog from './MenuItemWithConfirmationDialog';
 
+import Group from 'material-ui/svg-icons/social/group';
+import Delete from 'material-ui/svg-icons/action/delete';
 
 class GroupChannel extends Component {
 
@@ -30,7 +32,7 @@ class GroupChannel extends Component {
     render() {
         const { channel } = this.props;
         const groupMenu = [<MenuItem key={`${channel.key}-details`}
-            rightIcon={<FontIcon className="fa fa-group"/>}
+            rightIcon={<Group/>}
             onTouchTap={this.openGroupDetails.bind(this)}
         >Detalhes</MenuItem>];
 
@@ -40,6 +42,7 @@ class GroupChannel extends Component {
                     key={`${channel.key}-delete`}
                     title="Apagar"
                     confirmationTitle={`Deseja realmente apagar o grupo ${channel.name}?`}
+                    rightIcon={<Delete/>}
                     onConfirm={() => this.props.deleteGroup(channel)}
                 />)
         }

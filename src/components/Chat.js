@@ -8,6 +8,9 @@ import Content from './Content';
 import BottomFixed from './BottomFixed';
 import { lightBlue50 } from 'material-ui/styles/colors';
 
+
+const bottomBarSize = 60;
+
 class Chat extends Component {
 
     constructor(props){
@@ -30,17 +33,16 @@ class Chat extends Component {
                 <TitleAndBackHeader/>
                 <Content>
                     <MessageList messages={ messages } style={{
-                        marginTop: '60px',
                         display: 'flex',
                         backgroundColor: lightBlue50,
                         paddingTop: (!messages || messages.length < 5) ? '1000px' : '10px',
-                        paddingBottom: '60px',
+                        paddingBottom: bottomBarSize,
                         flexDirection: 'column'
                     }}/>
                 </Content>
                 <div id="bottom" ref={(el) => { this.messagesEnd = el; }}/>
                 <BottomFixed style={{
-                    height: '60px'
+            height: bottomBarSize
                 }}>
                     <MessageBox selectedChannel={channelKey} scrollToBottom={this.scrollToBottom}/>
                 </BottomFixed>

@@ -3,7 +3,9 @@ import AppBar from './AppBar';
 import Content from './Content';
 import ChannelList from './ChannelList';
 import ToolBarFixed from './ToolBarFixed';
-import { TextField, IconButton, FontIcon, Drawer, Card, CardHeader, List, ListItem, Subheader, ToolbarGroup, FlatButton } from 'material-ui';
+import { TextField, Drawer, Card, CardHeader, List, ListItem, Subheader, ToolbarGroup, FlatButton } from 'material-ui';
+import ExitToApp from 'material-ui/svg-icons/action/exit-to-app';
+import GroupAdd from 'material-ui/svg-icons/social/group-add';
 import base from '../store/rebase';
 import { withRouter } from 'react-router-dom';
 
@@ -11,6 +13,7 @@ class InitialPage extends Component {
 
     constructor(props){
         super(props);
+        this.openDrawer = this.openDrawer.bind(this);
         this.state = {
             filter: ''
         }
@@ -39,7 +42,7 @@ class InitialPage extends Component {
         })
     }
 
-    goToAddGroup(group) {
+    goToAddGroup() {
         this.props.history.replace('/addgroup');
     }
 
@@ -52,9 +55,7 @@ class InitialPage extends Component {
             <div>
                 <AppBar
                     title="Conversas"
-                    iconElementLeft={<IconButton onTouchTap={this.openDrawer.bind(this)}><FontIcon style={{
-                        color: 'white',
-                    }} className="fa fa-bars"/></IconButton>}
+                    onLeftIconButtonTouchTap={this.openDrawer}
                 />
                 <ToolBarFixed>
                     <ToolbarGroup firstChild={true} style={{
@@ -71,11 +72,11 @@ class InitialPage extends Component {
                     </ToolbarGroup>
                     <ToolbarGroup lastChild={true}>
                             <FlatButton
-                                onTouchTap={((evt) => this.goToAddGroup(evt.target.value)).bind(this)}
+                                onTouchTap={((evt) => this.goToAddGroup(evt.target.value))}
                                 label='CRIAR'
                                 labelPosition="before"
                                 primary={true}
-                                icon={ <FontIcon className="fa fa-plus"/>}
+                                icon={ <GroupAdd/> }
                             />
                     </ToolbarGroup>
                 </ToolBarFixed>
@@ -100,7 +101,7 @@ class InitialPage extends Component {
                             <ListItem
                                 primaryText="Sair"
                                 onTouchTap={this.singOut.bind(this)}
-                                rightIcon={<FontIcon className="fa fa-sign-out"/>}
+                                rightIcon={<ExitToApp/>}
                             />
                         </ListItem>
                     </List>

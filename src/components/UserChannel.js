@@ -1,8 +1,10 @@
 import React from 'react';
-import { ListItem, Avatar, IconMenu, IconButton, MenuItem, FontIcon } from 'material-ui';
-import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
+import { ListItem, Avatar, IconMenu, IconButton, MenuItem } from 'material-ui';
 import moment from 'moment';
 import { withRouter } from 'react-router-dom';
+
+import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
+import AccountBox from 'material-ui/svg-icons/action/account-box';
 
 const UserChannel = ({ user, history }) => {
 
@@ -35,7 +37,7 @@ const UserChannel = ({ user, history }) => {
                     <MoreVertIcon/>
                 </IconButton>}>
                     <MenuItem
-                        rightIcon={<FontIcon className="fa fa-user"/>}
+                        rightIcon={<AccountBox/>}
                         onTouchTap={goToProfilePage}
                     >Perfil</MenuItem>
                 </IconMenu>

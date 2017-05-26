@@ -50,7 +50,6 @@ class ChannelList extends Component {
 
             content =
                 <List style={Object.assign({
-                    paddingTop: '70px',
                     zIndex: 1
                 }, style)}>
                     {channelNodes}

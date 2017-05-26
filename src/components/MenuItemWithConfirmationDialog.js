@@ -1,4 +1,4 @@
-import { FlatButton, Dialog, MenuItem, FontIcon } from 'material-ui';
+import { FlatButton, Dialog, MenuItem } from 'material-ui';
 import React, { Component } from 'react';
 
 export default class MenuItemWithConfirmationDialog extends Component {
@@ -38,18 +38,19 @@ export default class MenuItemWithConfirmationDialog extends Component {
             />,
         ];
 
+        const { rightIcon, confirmationTitle, confirmationSubTitle } = this.props;
         return (
             <div>
             <MenuItem
-                rightIcon={<FontIcon className="fa fa-trash"/>}
+                rightIcon={rightIcon}
                 onTouchTap={this.handleOpen}
             >{this.props.title}</MenuItem>
             <Dialog
                     style={{
                         zIndex: 3000
                     }}
-                    title={this.props.confirmationTitle}
-                    subTitle={this.props.confirmationSubTitle}
+                    title={confirmationTitle}
+                    subTitle={confirmationSubTitle}
                     actions={actions}
                     modal={true}
                     open={this.state.open}
