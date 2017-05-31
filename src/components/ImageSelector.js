@@ -28,7 +28,6 @@ class ImageSelector extends Component {
     };
 
     clickPhotoInput = () => {
-        if(this.state.open) return;
         const node = ReactDOM.findDOMNode(this.photoInput);
         if(node) {
             node.click();
@@ -36,11 +35,14 @@ class ImageSelector extends Component {
     };
 
     render() {
-        const { originalImage } = this.props;
+        const { originalImage, disabled = false } = this.props;
         const { loading } = this.state;
+        const avatarIconStyle = Object.assign(
+            { visibility: disabled ?  'hidden' : 'visible' },
+            styles.avatarIcon
+        );
         return (
             <div
-                onClick={this.clickPhotoInput.bind(this)}
                 style={{
                     width: '100%',
                     display: 'flex',
@@ -48,7 +50,7 @@ class ImageSelector extends Component {
                     justifyContent: 'center',
                 }}
             >
-                { loading ? <CircularProgress style={styles.avatarIcon} /> : <AddAPhoto style={styles.avatarIcon} /> }
+                { loading ? <CircularProgress style={ avatarIconStyle } /> : <AddAPhoto onClick={this.clickPhotoInput.bind(this)} style={ avatarIconStyle } /> }
                 <Avatar size={120} src={ loading ?  null : originalImage } />
                 <input
                     style={{

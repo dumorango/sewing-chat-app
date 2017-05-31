@@ -10,9 +10,6 @@ import ImageSelector from './ImageSelector';
 import LockOpen from 'material-ui/svg-icons/action/lock-open';
 import Lock from 'material-ui/svg-icons/action/lock';
 
-import '../../node_modules/cropperjs/dist/cropper.css';
-import ReactDOM from "react-dom";
-
 class CreateGroupForm extends Component {
 
     constructor(props){
@@ -73,6 +70,7 @@ class CreateGroupForm extends Component {
                             <ImageSelector
                                 uploadPhoto={uploadPhoto}
                                 originalImage={group.photoURL}
+                                disabled={!this.isAdmin()}
                             />
                             <TextField
                                 hintText="Costureiras de Plantão"
