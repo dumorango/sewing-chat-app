@@ -18,6 +18,7 @@ class CreateGroup extends React.Component {
         this.getGroupId = this.getGroupId.bind(this);
         this.updateGroup = this.updateGroup.bind(this);
         this.setAdmin = this.setAdmin.bind(this);
+        this.uploadPhoto = this.uploadPhoto.bind(this);
         const user = base.getCurrentUser();
         const members = {};
         members[user.uid] = true;
@@ -162,6 +163,28 @@ class CreateGroup extends React.Component {
         }
     }
 
+    uploadPhoto(blob) {
+        const { group } = this.state;
+        const baseRef = base.initializedApp.storage().ref();
+        const user = base.getCurrentUser();
+        const groupPhotosBucket = baseRef.child(`${user.uid}/uploads/groupImages/${new Date()}`);
+        const uploadTask = groupPhotosBucket.put(blob);
+        return new Promise((resolve, reject) => {
+            uploadTask.on('state_changed',
+                (snapshot) => console.log(snapshot.bytesTransferred),
+                reject,
+                () => {
+                    this.setState({
+                        group: Object.assign(group, {
+                            photoURL: uploadTask.snapshot.downloadURL
+                        })
+                    });
+                    resolve();
+                }
+            )
+        });
+    }
+
     render() {
         return (
             <CreateGroupForm
@@ -179,6 +202,7 @@ class CreateGroup extends React.Component {
                 ready={this.state.ready}
                 group={this.state.group}
                 setAdmin={this.setAdmin}
+                uploadPhoto={this.uploadPhoto}
             />
         );
     }

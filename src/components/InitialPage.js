@@ -65,6 +65,7 @@ class InitialPage extends Component {
                         <TextField
                             hintText="Grupo ou pessoa..."
                             floatingLabelText="Buscar"
+                            autoFocus={false}
                             multiLine={false}
                             name="filter"
                             onChange={this.setFilter.bind(this)}

@@ -1,13 +1,17 @@
 import React, { Component } from 'react';
-import { TextField, Checkbox, AutoComplete, MenuItem, Avatar } from 'material-ui';
+import { TextField, Checkbox, AutoComplete, MenuItem, Avatar, FlatButton, Dialog } from 'material-ui';
 import TitleAndBackHeader from './TitleAndBackHeader';
 import AppBar from './AppBar';
 import Content from './Content';
 import Loading from './Loading';
 import GroupParticipantsList from './GroupParticipantsList';
+import ImageSelector from './ImageSelector';
 
 import LockOpen from 'material-ui/svg-icons/action/lock-open';
 import Lock from 'material-ui/svg-icons/action/lock';
+
+import '../../node_modules/cropperjs/dist/cropper.css';
+import ReactDOM from "react-dom";
 
 class CreateGroupForm extends Component {
 
@@ -43,7 +47,7 @@ class CreateGroupForm extends Component {
     }
 
     render() {
-        const {  createGroup, error, tooglePublic, users = [], currentUser, title, ready, group, setAdmin, removeMember} = this.props;
+        const {  createGroup, error, tooglePublic, users = [], currentUser, title, ready, group, setAdmin, removeMember, uploadPhoto } = this.props;
         const isPublic = group.privacy === 'public';
         if(!ready) return <Loading/>;
         const formElementStyle = {
@@ -59,7 +63,6 @@ class CreateGroupForm extends Component {
             /> )
         }));
 
-
         return (
                 <div>
 
@@ -67,6 +70,10 @@ class CreateGroupForm extends Component {
                     <TitleAndBackHeader title="Criar Grupo" rightAction={createGroup} rightLegend="Criar"/>
                     <Content>
                         <div style={{ padding: 20 }}>
+                            <ImageSelector
+                                uploadPhoto={uploadPhoto}
+                                originalImage={group.photoURL}
+                            />
                             <TextField
                                 hintText="Costureiras de Plantão"
                                 floatingLabelText="Nome do Grupo"

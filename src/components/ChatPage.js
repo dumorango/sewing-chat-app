@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import Chat from './Chat';
+import Loading from './Loading';
 import base from '../store/rebase';
 
 class ChatPage extends Component {
@@ -56,6 +57,7 @@ class ChatPage extends Component {
 
     render() {
         const { messages, channel, key } = this.state;
+        if(!channel) return <Loading/>;
         const { name } = channel;
         return (
             <Chat key={key} channelName={name} channelKey={key} messages={messages}/>
