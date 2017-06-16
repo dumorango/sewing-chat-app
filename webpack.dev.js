@@ -2,7 +2,7 @@ const { resolve } = require('path');
 const webpack = require('webpack');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const OfflinePlugin = require('offline-plugin');
+// const OfflinePlugin = require('offline-plugin');
 
 module.exports = {
   context: resolve(__dirname, 'src'),
@@ -74,6 +74,6 @@ module.exports = {
       title: 'Zap da Costura',
       template: './index.ejs',
     }),
-    new OfflinePlugin(),
+    // new OfflinePlugin(),
   ],
 };
