@@ -16,5 +16,4 @@ module.exports = [
   'redux-observable',
   'react-redux',
   'immutable',
-  'offline-plugin',
 ];
