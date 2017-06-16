@@ -114,7 +114,6 @@ class CreateGroupForm extends Component {
 
   onPictureChange(event, file) {
     console.log(file);
-    this.props.uploadPhoto(file);
   }
 
   isAdmin() {

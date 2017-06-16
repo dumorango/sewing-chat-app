@@ -74,6 +74,6 @@ module.exports = {
       title: 'Zap da Costura',
       template: './index.ejs',
     }),
-    // new OfflinePlugin(),
+    new OfflinePlugin(),
   ],
 };

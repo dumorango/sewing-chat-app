@@ -5,7 +5,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import { blue500, blue100, blue700, pink400 } from 'material-ui/styles/colors';
 import injectTapEventPlugin from 'react-tap-event-plugin';
-import * as OfflinePluginRuntime from 'offline-plugin/runtime';
+// import * as OfflinePluginRuntime from 'offline-plugin/runtime';
 import createBrowserHistory from 'history/createBrowserHistory';
 import { ConnectedRouter } from 'react-router-redux';
 
@@ -23,7 +23,7 @@ import configureStore from './store';
 
 injectTapEventPlugin();
 
-OfflinePluginRuntime.install();
+// OfflinePluginRuntime.install();
 
 const initialState = {};
 

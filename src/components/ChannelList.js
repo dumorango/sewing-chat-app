@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import GroupChannel from './GroupChannel';
 import UserChannel from './UserChannel'
 import { List, Divider, Snackbar }  from 'material-ui';
-import base from '../store/rebase';
+import base from '../store/firebase';
 
 import Loading from './Loading';
 

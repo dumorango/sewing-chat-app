@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import Chat from './Chat';
 import Loading from './Loading';
-import base from '../store/rebase';
+import base from '../store/firebase';
 
 class ChatPage extends Component {
 

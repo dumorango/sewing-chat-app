@@ -1,7 +1,7 @@
 import React from 'react';
 import { Avatar, Paper } from 'material-ui';
 import { grey100 } from 'material-ui/styles/colors';
-import base from '../store/rebase';
+import base from '../store/firebase';
 
 const MESSAGE_BOX_RADIUS = 10;
 

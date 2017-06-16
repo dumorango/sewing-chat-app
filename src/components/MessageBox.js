@@ -1,7 +1,7 @@
 import React from 'react';
 import { TextField, FloatingActionButton, Paper } from 'material-ui';
 import trim from 'trim';
-import base from '../store/rebase';
+import base from '../store/firebase';
 
 import Send from 'material-ui/svg-icons/content/send';
 

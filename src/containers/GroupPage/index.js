@@ -6,7 +6,6 @@ import { push } from 'react-router-redux';
 import Loading from 'components/Loading';
 
 import CreateGroupForm from './components/CreateGroupForm';
-import base from '../../store/rebase';
 
 import { getGroupsAsList } from './selectors';
 
@@ -22,28 +21,6 @@ class GroupPage extends React.Component {
 
   getGroupId() {
     return this.props.match.params.group;
-  }
-
-  uploadPhoto(blob) {
-    const { group } = this.state;
-    const baseRef = base.initializedApp.storage().ref();
-    const user = base.getCurrentUser();
-    const groupPhotosBucket = baseRef.child(`${user.uid}/uploads/groupImages/${new Date()}`);
-    const uploadTask = groupPhotosBucket.put(blob);
-    return new Promise((resolve, reject) => {
-      uploadTask.on('state_changed',
-            (snapshot) => console.log(snapshot.bytesTransferred),
-            reject,
-            () => {
-              this.setState({
-                group: Object.assign(group, {
-                  photoURL: uploadTask.snapshot.downloadURL,
-                }),
-              });
-              resolve();
-            }
-        );
-    });
   }
 
   isLoading() {
@@ -63,7 +40,6 @@ class GroupPage extends React.Component {
         title={this.getGroupId() ? this.state.group.name : 'Criar Grupo'}
         createGroup={this.getGroupId() ? null : this.createGroup}
         currentUser={user}
-        uploadPhoto={this.uploadPhoto}
         users={users}
         groups={groups}
       />
