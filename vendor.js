@@ -5,7 +5,6 @@ module.exports = [
   'react-router-dom',
   'react-tap-event-plugin',
   'material-ui',
-  'moment',
   'trim',
   'rxjs',
   'redux-form',
