@@ -1,5 +1,4 @@
 const { resolve } = require('path');
-const path = require('path');
 const webpack = require('webpack');
 
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
@@ -16,6 +15,9 @@ module.exports = {
     app: [
       './index.js',
     ],
+  },
+  resolve: {
+    modules: [resolve(__dirname, 'src'), 'node_modules'],
   },
   output: {
     filename: '[name].[chunkhash:8].js',
