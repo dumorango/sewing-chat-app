@@ -1,0 +1,36 @@
+/**
+ * Combine all reducers in this file and export the combined reducers.
+ * If we were to do this in store.js, reducers wouldn't be hot reloadable.
+ */
+
+import { combineReducers } from 'redux-immutable';
+import { fromJS } from 'immutable';
+import { routerReducer } from 'react-router-redux';
+import { reducer as formReducer } from 'redux-form/immutable';
+import mainReducer from 'containers/MainPage/reducer';
+import { LOGIN } from './constants';
+import User from './domain/User';
+
+function loginReducer(state = fromJS({}), action) {
+  switch (action.type) {
+    case LOGIN:
+      return state.merge({
+        user: User.fromObject(action.payload),
+      });
+    default:
+      return state;
+  }
+}
+/**
+ * Creates the main reducer with the asynchronously loaded ones
+ */
+export default function createReducer(asyncReducers) {
+  return combineReducers({
+    routing: routerReducer,
+    form: formReducer,
+    // language: languageProviderReducer,
+    main: mainReducer,
+    login: loginReducer,
+    ...asyncReducers,
+  });
+}

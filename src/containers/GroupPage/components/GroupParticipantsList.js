@@ -4,9 +4,9 @@ import {
 } from 'material-ui';
 import GroupParticipantsItem from './GroupParticipantsItem';
 
-const GroupParticipantsList = ({ users, currentUser, group, members, isCurrentUserAdmin, setAdmin, removeMember }) => {
+const GroupParticipantsList = ({ users, currentUser, group, members = {}, isCurrentUserAdmin, setAdmin, removeMember }) => {
     let menuOpen = false;
-    const membersList = Object.keys(members).map((key) => {
+    const membersList = members.map((key) => {
         let user = users.find(user => user.uid === key) || {};
         return group.members[user.uid]? <GroupParticipantsItem
             key={key}

@@ -1,17 +1,21 @@
 import React, { Component } from 'react';
+
+import ExitToApp from 'material-ui/svg-icons/action/exit-to-app';
+import GroupAdd from 'material-ui/svg-icons/social/group-add';
+
+import { withRouter } from 'react-router-dom';
+
 import AppBar from './AppBar';
 import Content from './Content';
 import ChannelList from './ChannelList';
 import ToolBarFixed from './ToolBarFixed';
 import { TextField, Drawer, Card, CardHeader, List, ListItem, Subheader, ToolbarGroup, FlatButton } from 'material-ui';
-import ExitToApp from 'material-ui/svg-icons/action/exit-to-app';
-import GroupAdd from 'material-ui/svg-icons/social/group-add';
 import base from '../store/rebase';
-import { withRouter } from 'react-router-dom';
+
 
 class InitialPage extends Component {
 
-    constructor(props){
+    constructor(props) {
         super(props);
         this.openDrawer = this.openDrawer.bind(this);
         this.state = {

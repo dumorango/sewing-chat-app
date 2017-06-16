@@ -18,7 +18,7 @@ class Chat extends Component {
         this.scrollToBottom = this.scrollToBottom.bind(this);
     }
 
-    scrollToBottom = () => {
+    scrollToBottom() {
         const node = ReactDOM.findDOMNode(this.messagesEnd);
         if(node) {
             node.scrollIntoView({ behavior: 'smooth' });

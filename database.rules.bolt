@@ -1,0 +1,38 @@
+isCurrentUser(uid) { auth != null && auth.uid == uid }
+
+path /channels/public {
+    read() { true }
+    write() { false }
+}
+
+path /users {
+    read() { true }
+}
+
+path /users/{userId} {
+    write() { isCurrentUser(userId) }
+}
+
+path /groups/{groupId} is Group {
+    read() { auth != null }
+    write() { auth != null }
+}
+
+type Group {
+    validate() {
+        isAdmin(this.members)
+    }
+    name: NameString,
+    privacy: Boolean,
+    members: Object,
+    photoURL: String | Null
+    key: String | Null
+}
+
+type NameString extends String {
+  validate() { this.length > 0 && this.length <= 32 }
+}
+
+isAdmin(members) {
+    members[auth.uid].isAdmin
+}

@@ -1,17 +1,19 @@
 import React from 'react';
 import { CircularProgress } from 'material-ui';
+import Content from 'components/Content';
 
 const Loading = ({ style }) => {
     style = Object.assign({
-        paddingTop: '50%',
-        paddingBottom: '20px',
-        margin: '0 auto',
-        display: 'block',
-        width: '60px'
+        width: '100%',
+        height: '100%',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
     }, style);
-    return <CircularProgress
+    return <Content><CircularProgress
         mode="indeterminate"
-        style={style}/>;
+        style={style}/>
+    </Content>
 };
 
 export default Loading;

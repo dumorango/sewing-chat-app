@@ -7,5 +7,14 @@ module.exports = [
     "material-ui",
     "moment",
     "re-base",
-    "trim"
+    "trim",
+    "rxjs",
+    "redux",
+    "react-router-redux",
+    "redux-form",
+    "redux-immutable",
+    "redux-observable",
+    "react-redux",
+    "immutable",
+    "offline-plugin"
 ];

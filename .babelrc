@@ -4,8 +4,9 @@
     "stage-1",
     // webpack understands the native import syntax, and uses it for tree shaking
 
-    "react"
+    "react",
     // Transpile React components to JavaScript
+    "flow"
   ],
   "plugins": [
     "react-hot-loader/babel",
