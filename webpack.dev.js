@@ -2,78 +2,64 @@ const { resolve } = require('path');
 const webpack = require('webpack');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-// const OfflinePlugin = require('offline-plugin');
 
 module.exports = {
-  context: resolve(__dirname, 'src'),
+    context: resolve(__dirname, 'src'),
+    entry: "./index.tsx",
+    output: {
+        filename: "bundle.js",
+        path: __dirname + "/dist"
+    },
 
-  entry: [
-    'react-hot-loader/patch',
-        // activate HMR for React
+    // Enable sourcemaps for debugging webpack's output.
+    devtool: "source-map",
 
-    'webpack-dev-server/client?http://localhost:8080',
-        // bundle the client for webpack-dev-server
-        // and connect to the provided endpoint
-
-    'webpack/hot/only-dev-server',
-        // bundle the client for hot reloading
-        // only- means to only hot reload for successful updates
-
-    './index.js',
-        // the entry point of our app
-  ],
-  resolve: {
-    modules: [resolve(__dirname, 'src'), 'node_modules'],
-  },
-  output: {
-    filename: '[name].js',
-        // the output bundle
-
-    path: resolve(__dirname, 'dist'),
-
-    publicPath: '/',
-        // necessary for HMR to know where to load the hot update chunks
-  },
-
-  devtool: 'inline-source-map',
-
-  devServer: {
-    disableHostCheck: true,
-    historyApiFallback: true,
-    hot: true,
+    devServer: {
+        disableHostCheck: true,
+        historyApiFallback: true,
+        hot: true,
         // enable HMR on the server
 
-    contentBase: resolve(__dirname, 'dist'),
+        contentBase: resolve(__dirname, 'dist'),
         // match the output path
 
-    publicPath: '/',
+        publicPath: '/',
         // match the output `publicPath`
-  },
+    },
 
-  module: {
-    rules: [
-      {
-        test: /\.jsx?$/,
-        use: ['babel-loader', ],
-        exclude: /node_modules/,
-      },
-      {
-        test: /\.css$/,
-        use: ['style-loader', 'css-loader?modules', ],
-      },
-    ],
-  },
+    resolve: {
+        // Add '.ts' and '.tsx' as resolvable extensions.
+        extensions: [".ts", ".tsx", ".js", ".json", ".ejs"]
+    },
 
-  plugins: [
-    new webpack.HotModuleReplacementPlugin(),
+    module: {
+        rules: [
+            // All files with a '.ts' or '.tsx' extension will be handled by 'awesome-typescript-loader'.
+            { test: /\.tsx?$/, loader: "awesome-typescript-loader" },
+
+            // All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.
+            //{ enforce: "pre", test: /\.js$/, loader: "source-map-loader" }
+        ]
+    },
+
+    // When importing a module whose path matches one of the following, just
+    // assume a corresponding global variable exists and use that instead.
+    // This is important because it allows us to avoid bundling all of our
+    // dependencies, which allows browsers to cache those libraries between builds.
+    // externals: {
+    //     "react": "React",
+    //     "react-dom": "ReactDOM"
+    // },
+    plugins: [
+        new webpack.HotModuleReplacementPlugin(),
         // enable HMR globally
 
-    new webpack.NamedModulesPlugin(),
+        //new webpack.NamedModulesPlugin(),
         // prints more readable module names in the browser console on HMR updates
-    new HtmlWebpackPlugin({
-      title: 'Zap da Costura',
-      template: './index.ejs',
-    }),
-    // new OfflinePlugin(),
-  ],
+        new HtmlWebpackPlugin({
+             title: 'Zap da Costura',
+             template: './index.ejs',
+         }),
+        // new OfflinePlugin(),
+    ],
 };
